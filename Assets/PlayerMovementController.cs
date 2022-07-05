@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovementController : NetworkBehaviour
 {
-    public float Speed = 0.1f;
+    public float Speed = 10f;
     public GameObject PlayerModel;
 
     private void Start()
@@ -42,7 +42,23 @@ public class PlayerMovementController : NetworkBehaviour
         float zDirection = Input.GetAxis("Vertical");
 
         Vector3 moveDirection = new Vector3(xDirection, 0, zDirection);
+        moveDirection.Normalize();
+        //transform.position += moveDirection * Speed;
 
-        transform.position += moveDirection * Speed;
+        if (moveDirection == Vector3.zero)
+            return;
+
+        var camToPlayer = transform.position - Camera.main.transform.position;
+        var normalVector = Vector3.up;
+        var projection = Vector3.ProjectOnPlane(camToPlayer, normalVector);
+        projection.Normalize();
+
+        var perpProjection = new Vector3(-projection.z, projection.y, projection.x);
+
+        var final = moveDirection.x * perpProjection + moveDirection.z * projection;
+        final.Normalize();
+
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(final), 180 * Time.deltaTime);
+        transform.position += final * Speed * Time.deltaTime;
     }
 }
