@@ -23,6 +23,11 @@ public class PlayerObjectController : NetworkBehaviour
         }
     }
 
+    private void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     public override void OnStartAuthority()
     {
         CommandSetPlayerName(SteamFriends.GetPersonaName().ToString());

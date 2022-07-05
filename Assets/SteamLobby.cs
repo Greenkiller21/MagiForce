@@ -12,7 +12,6 @@ public class SteamLobby : MonoBehaviour
     protected Callback<GameLobbyJoinRequested_t> JoinRequest;
     protected Callback<LobbyEnter_t> LobbyEnter;
 
-
     public ulong CurrentLobbyID;
     private CustomNetworkManager manager;
 

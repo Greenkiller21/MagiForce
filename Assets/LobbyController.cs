@@ -78,18 +78,7 @@ public class LobbyController : MonoBehaviour
     {
         foreach (var player in Manager.GamePlayers)
         {
-            GameObject newPlayerItem = Instantiate(PlayerListItemPrefab);
-            PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
-
-            newPlayerItemScript.PlayerName = player.PlayerName;
-            newPlayerItemScript.ConnectionId = player.ConnectionID;
-            newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-            newPlayerItemScript.SetPlayerValues();
-
-            newPlayerItem.transform.SetParent(PlayerListViewContent.transform);
-            newPlayerItem.transform.localScale = Vector3.one;
-
-            PlayerListItems.Add(newPlayerItemScript);
+            CreatePlayerItem(player);
         }
 
         PlayerItemCreated = true;
@@ -101,18 +90,7 @@ public class LobbyController : MonoBehaviour
         {
             if (!PlayerListItems.Any(item => item.ConnectionId == player.ConnectionID))
             {
-                GameObject newPlayerItem = Instantiate(PlayerListItemPrefab);
-                PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
-
-                newPlayerItemScript.PlayerName = player.PlayerName;
-                newPlayerItemScript.ConnectionId = player.ConnectionID;
-                newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
-                newPlayerItemScript.SetPlayerValues();
-
-                newPlayerItem.transform.SetParent(PlayerListViewContent.transform);
-                newPlayerItem.transform.localScale = Vector3.one;
-
-                PlayerListItems.Add(newPlayerItemScript);
+                CreatePlayerItem(player);
             }
         }
     }
@@ -154,5 +132,21 @@ public class LobbyController : MonoBehaviour
                 objectToRemove = null;
             }
         }
+    }
+
+    private void CreatePlayerItem(PlayerObjectController player)
+    {
+        GameObject newPlayerItem = Instantiate(PlayerListItemPrefab);
+        PlayerListItem newPlayerItemScript = newPlayerItem.GetComponent<PlayerListItem>();
+
+        newPlayerItemScript.PlayerName = player.PlayerName;
+        newPlayerItemScript.ConnectionId = player.ConnectionID;
+        newPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+        newPlayerItemScript.SetPlayerValues();
+
+        newPlayerItem.transform.SetParent(PlayerListViewContent.transform);
+        newPlayerItem.transform.localScale = Vector3.one;
+
+        PlayerListItems.Add(newPlayerItemScript);
     }
 }
