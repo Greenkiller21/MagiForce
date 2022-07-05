@@ -12,7 +12,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        if (SceneManager.GetActiveScene().name == Constants.ScenesName.Lobby)
+        if (SceneManager.GetActiveScene().name.StartsWith(Constants.ScenesName.Game))
         {
             PlayerObjectController gamePlayerInstance = Instantiate(GamePlayerPrefab);
             gamePlayerInstance.ConnectionID = conn.connectionId;

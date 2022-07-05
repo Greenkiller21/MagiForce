@@ -6,8 +6,10 @@ public static class Constants
 {
     public static class ScenesName
     {
+        public const string Game = "Game";
+        
         public const string MainMenu = "MainMenu";
-        public const string Lobby = "Lobby";
+        public const string GameMain = "GameMain";
     }
 
     public static class SteamLobbyDataNames
@@ -19,5 +21,10 @@ public static class Constants
     public static class Lobby
     {
         public const string LocalGamePlayer = "LocalGamePlayer";
+    }
+
+    public static class KeyBindings
+    {
+        public static KeyCode PlayerList = KeyCode.Tab;
     }
 }
