@@ -13,6 +13,16 @@ public class PlayerMovementController : NetworkBehaviour
 
     private Rigidbody rb;
 
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,7 +53,6 @@ public class PlayerMovementController : NetworkBehaviour
         float zDirection = Input.GetAxis("Vertical");
 
         Vector3 moveDirection = new Vector3(-xDirection, 0, zDirection);
-        //transform.position += moveDirection * Speed;
 
         if (moveDirection == Vector3.zero)
             return;
@@ -57,9 +66,6 @@ public class PlayerMovementController : NetworkBehaviour
 
         var final = moveDirection.x * perpProjection + moveDirection.z * projection;
         final.Normalize();
-
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(final), 180 * Time.deltaTime);
-        //transform.position += final * Speed * Time.deltaTime;
 
         var targetRotation = Quaternion.LookRotation(final);
         targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime);
