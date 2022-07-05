@@ -11,8 +11,9 @@ public class PlayerObjectController : NetworkBehaviour
     [SyncVar] public ulong PlayerSteamID;
     [SyncVar(hook = nameof(PlayerNameUpdate))] public string PlayerName;
 
-    private CustomNetworkManager manager;
+    public GameObject Camera;
 
+    private CustomNetworkManager manager;
     private CustomNetworkManager Manager
     {
         get
@@ -32,6 +33,7 @@ public class PlayerObjectController : NetworkBehaviour
     {
         CommandSetPlayerName(SteamFriends.GetPersonaName().ToString());
         gameObject.name = Constants.Lobby.LocalGamePlayer;
+        Camera.SetActive(true);
         LobbyController.Instance.FindLocalPlayer();
         LobbyController.Instance.UpdateLobbyName();
     }
