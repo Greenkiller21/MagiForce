@@ -7,27 +7,28 @@ using UnityEngine.SceneManagement;
 public class PlayerMovementController : NetworkBehaviour
 {
     public float Speed = 10f;
+    public float RotationSpeed = 360f;
+
     public GameObject PlayerModel;
+
+    private Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
-        PlayerModel.SetActive(false);
+        SetStartPosition();
+        PlayerModel.SetActive(true);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (SceneManager.GetActiveScene().name.StartsWith(Constants.ScenesName.Game))
+        if (hasAuthority)
         {
-            if (!PlayerModel.activeSelf)
-            {
-                SetStartPosition();
-                PlayerModel.SetActive(true);
-            }
-            
-            if (hasAuthority)
-            {
-                Movement();
-            }
+            Movement();
         }
     }
 
@@ -41,14 +42,13 @@ public class PlayerMovementController : NetworkBehaviour
         float xDirection = Input.GetAxis("Horizontal");
         float zDirection = Input.GetAxis("Vertical");
 
-        Vector3 moveDirection = new Vector3(xDirection, 0, zDirection);
-        moveDirection.Normalize();
+        Vector3 moveDirection = new Vector3(-xDirection, 0, zDirection);
         //transform.position += moveDirection * Speed;
 
         if (moveDirection == Vector3.zero)
             return;
 
-        var camToPlayer = transform.position - Camera.main.transform.position;
+        var camToPlayer = rb.position - Camera.main.transform.position;
         var normalVector = Vector3.up;
         var projection = Vector3.ProjectOnPlane(camToPlayer, normalVector);
         projection.Normalize();
@@ -59,6 +59,12 @@ public class PlayerMovementController : NetworkBehaviour
         final.Normalize();
 
         //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(final), 180 * Time.deltaTime);
-        transform.position += final * Speed * Time.deltaTime;
+        //transform.position += final * Speed * Time.deltaTime;
+
+        var targetRotation = Quaternion.LookRotation(final);
+        targetRotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.fixedDeltaTime);
+        
+        rb.MovePosition(rb.position + final * Speed * Time.fixedDeltaTime);
+        rb.MoveRotation(targetRotation);
     }
 }
