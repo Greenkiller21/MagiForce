@@ -44,7 +44,15 @@ public class PlayerMovementController : NetworkBehaviour
 
     public void SetStartPosition()
     {
-        transform.position = new Vector3(Random.Range(-5, 5), 0.8f, Random.Range(-15, 15));
+        var startPos = new Vector3(Random.Range(-5, 5), 1000, Random.Range(-15, 15));
+        
+        if (Physics.Raycast(startPos, Vector3.down, out RaycastHit hit, float.MaxValue))
+        {
+            transform.position = new Vector3(hit.point.x, hit.point.y + 0.8f, hit.point.z);
+            return;
+        }
+
+        Debug.LogError("Can't find start pos !!");
     }
 
     public void Movement()
