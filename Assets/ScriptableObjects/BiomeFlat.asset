@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BiomeName: Flat
   SpawnProbability: 60
-  Amplitude: 0
-  Frequency: 1
+  Amplitude: 3
+  Frequency: 0.1
   Color: {r: 0, g: 0, b: 0, a: 0}

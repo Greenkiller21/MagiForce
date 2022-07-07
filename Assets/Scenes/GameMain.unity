@@ -834,6 +834,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1163745200}
   - component: {fileID: 1163745201}
+  - component: {fileID: 1163745202}
+  - component: {fileID: 1163745203}
   m_Layer: 0
   m_Name: TerrainController
   m_TagString: Untagged
@@ -868,10 +870,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac8b76ee3ed7914e82a5568284677b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TerrainMeshPrefab: {fileID: 960706779464950070, guid: 2779ab0acfd2be14290847de9de44cc6, type: 3}
-  ChunkSize: 50
-  ChunkXCount: 4
+  ChunkPrefab: {fileID: 960706779464950070, guid: 2779ab0acfd2be14290847de9de44cc6, type: 3}
+  ChunkSizeX: 50
+  ChunkSizeZ: 50
+  ChunkXCount: 3
   ChunkZCount: 3
+--- !u!114 &1163745202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163745199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54bc68d8986bd5f4c9ee6aa7a220356c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  options: {fileID: 11400000, guid: 3aad0d2187135e744987a5bc2640ccb5, type: 2}
+--- !u!114 &1163745203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163745199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e4926a3db1b0c345937c16eea650e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  options: {fileID: 11400000, guid: 13390879020a5a0439ef67ee0d887a0a, type: 2}
 --- !u!1 &1172392515
 GameObject:
   m_ObjectHideFlags: 0

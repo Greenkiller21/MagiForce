@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec5d798391eb0bb45890435d8e3b2181, type: 3}
-  m_Name: BiomeMountain
+  m_Script: {fileID: 11500000, guid: 71715ac46e718a344818589ff462d1c8, type: 3}
+  m_Name: WO_BiomeManager
   m_EditorClassIdentifier: 
-  BiomeName: Mountain
-  SpawnProbability: 40
-  Amplitude: 20
-  Frequency: 0.04
-  Color: {r: 0, g: 0, b: 0, a: 0}
+  Biomes:
+  - {fileID: 11400000, guid: 5e272a1d002b8ee4db9eb959cfe62791, type: 2}
+  - {fileID: 11400000, guid: 8b9cbbbbafb427b42841867090e40bfa, type: 2}
