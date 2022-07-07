@@ -873,8 +873,8 @@ MonoBehaviour:
   ChunkPrefab: {fileID: 960706779464950070, guid: 2779ab0acfd2be14290847de9de44cc6, type: 3}
   ChunkSizeX: 50
   ChunkSizeZ: 50
-  ChunkXCount: 3
-  ChunkZCount: 3
+  ChunkXCount: 10
+  ChunkZCount: 10
 --- !u!114 &1163745202
 MonoBehaviour:
   m_ObjectHideFlags: 0
