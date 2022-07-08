@@ -130,7 +130,7 @@ public static class ChunkUtils
 {
     public const string ChunkNameFormat = "Chunk {0},{1}";
 
-    public static BiomeData GetBiome(float worldX, float worldZ, List<BiomeData> biomes, SeedManager seedManager)
+    public static float GetBiomeHeight(float worldX, float worldZ, SeedManager seedManager)
     {
         var fn = new FastNoiseLite();
         fn.SetSeed((seedManager.SeedX * seedManager.SeedZ).GetHashCode());
@@ -141,7 +141,12 @@ public static class ChunkUtils
         fn.SetCellularDistanceFunction(FastNoiseLite.CellularDistanceFunction.Hybrid);
         fn.SetCellularJitter(0.4f);
 
-        float biomeHeightMap = Mathf.Clamp01(-fn.GetNoise(worldX, worldZ));
+        return Mathf.Clamp01(-fn.GetNoise(worldX, worldZ));
+    }
+
+    public static BiomeData GetBiome(float worldX, float worldZ, List<BiomeData> biomes, SeedManager seedManager)
+    {
+        float biomeHeightMap = GetBiomeHeight(worldX, worldZ, seedManager);
         /*float biomeHeightMap = Mathf.PerlinNoise((seedManager.SeedX + worldX) / 20f, (seedManager.SeedZ + worldZ) / 20f);
         biomeHeightMap = Mathf.Clamp01(biomeHeightMap);*/
 
@@ -201,8 +206,26 @@ public static class ChunkUtils
         var y = Mathf.Pow(total, exponentiation) * height;
 
         return y;*/
+        /*var y = Mathf.PerlinNoise((seedManager.SeedX + worldX) * 0.07f, (seedManager.SeedZ + worldZ) * 0.07f) * 0.5f + 0.5f;
+        y = Mathf.Pow(1f / y, (1f - (biome.SpawnProbability / 100f)) * 6f);*/
 
-        return Mathf.PerlinNoise((seedManager.SeedX + worldX) * biome.Frequency, (seedManager.SeedZ + worldZ) * biome.Frequency) * biome.Amplitude;
+        var y = Mathf.PerlinNoise((seedManager.SeedX + worldX) * biome.Frequency, (seedManager.SeedZ + worldZ) * biome.Frequency);
+
+        if (biome.BiomeName == "Mountain")
+        {
+            float totalProbability = biomes.Sum(biome => biome.SpawnProbability);
+            var flatBiome = biomes.Find(x => x.BiomeName == "Flat");
+            var mountainBiome = biome;
+
+            var maxYFlat = flatBiome.SpawnProbability / totalProbability; //0.6
+            var maxYMountain = maxYFlat + mountainBiome.SpawnProbability / totalProbability; //0.6 + 0.4 -> 1.0
+
+            y *= Mathf.InverseLerp(maxYFlat, maxYMountain, GetBiomeHeight(worldX, worldZ, seedManager));
+
+            y *= biome.Amplitude * 2;
+        }
+
+        return y;
     }
 
     public static (int, int) GetChunkIndex(float worldX, float worldZ, float chunkSizeX, float chunkSizeZ)

@@ -24,7 +24,7 @@ public class TerrainController : MonoBehaviour
         if (ReadyForSmoothTerrainCount == gameObject.GetComponentsInChildren<Chunk>(false).Length)
         {
             ReadyForSmoothTerrainCount = 0;
-            SmoothTerrain();
+            //SmoothTerrain(1);
         }
     }
 
@@ -63,10 +63,8 @@ public class TerrainController : MonoBehaviour
         gameObject.name = string.Format(ChunkUtils.ChunkNameFormat, chunkIndex.Item1, chunkIndex.Item2);
     }
 
-    private void SmoothTerrain()
+    private void SmoothTerrain(int smoothingNeighbors)
     {
-        int smoothingNeighbors = 3;
-
         var chunks = gameObject.GetComponentsInChildren<Chunk>(false);
         foreach (Chunk chunk in chunks)
         {
